@@ -7,17 +7,16 @@
 # Update_Date: 23.10.2023
 # Zusatztool für Emby
 
-
-# Bibiliotheken
+# Bibliotheken
 import os
 import re
 import tkinter as tk
 from tkinter import filedialog, Tk
 
 def add_tags_as_Gruppenname_to_nfo_files(main_directory):
-    # Muster, um Tags aus Dateinamen zu extrahieren 
-    # (in diesem Beispiel werden Wörter nach einem Bindestrich und vor der Dateierweiterung erfasst)
-    tag_pattern = r'-(.*?)(?:\..+|$)'
+    # Dieses Muster erfasst den Text nach dem letzten Bindestrich bis zum Dateiende.
+    # Es sucht nach einem Bindestrich, gefolgt von Zeichen (einschließlich Punkt), bis zum Dateiende.
+    tag_pattern = r'-(\w+)(?:\.\w+)?$'
 
     # Iteriere durch alle Ordner im Hauptverzeichnis
     for root, dirs, files in os.walk(main_directory):
@@ -26,40 +25,35 @@ def add_tags_as_Gruppenname_to_nfo_files(main_directory):
                 # Wenn die Datei eine NFO-Datei ist und nicht "tvshow.nfo" heißt
                 nfo_path = os.path.join(root, file)
 
+                # Nur den Dateinamen ohne Pfad und Erweiterung extrahieren
+                file_name = file.split("/")[-1].split(".nfo")[0]
                 # Extrahiere den Tag aus dem Dateinamen
-                match = re.search(tag_pattern, file)
+                match = re.search(tag_pattern, file_name)
                 if match:
                     tag = match.group(1)
 
                     # Öffne die NFO-Datei und lese deren Inhalt
-                    with open(nfo_path, "r", encoding="utf-8") as nfo_file:
+                    with open(nfo_path, "rb") as nfo_file:
                         nfo_content = nfo_file.read()
 
                     # Überprüfe, ob das <tag>-Element bereits im Inhalt vorhanden ist
-                    if "<tag>" not in nfo_content:
-                        # Suchen Sie das <runtime>-Element und fügen Sie das <tag>-Element direkt danach ein
-                        nfo_content = re.sub(r'(\<runtime>[0-9]+\<\/runtime>)', f'\\1\n  <tag>{tag}</tag>', nfo_content)
+                    # Überprüfe, ob das "<tag>"-Element bereits im Inhalt vorhanden ist (als Bytes)
+                    if b"<tag>" not in nfo_content:
+                        # Suchen Sie das <runtime>-Element und fügen Sie das <tag>-Element direkt danach ein (als Bytes)
+                        nfo_content = re.sub(b'(\<runtime>[0-9]+\<\/runtime>)', f'\\1\n  <tag>{tag}</tag>'.encode(), nfo_content)
 
-                        # Schreibe den aktualisierten Inhalt zurück in die NFO-Datei
-                        with open(nfo_path, "w", encoding="utf-8") as updated_nfo_file:
-                            updated_nfo_file.write(nfo_content)
+                    # Schreibe den aktualisierten Inhalt zurück in die NFO-Datei
+                    with open(nfo_path, "wb") as updated_nfo_file:
+                        updated_nfo_file.write(nfo_content)
 
                         print(f"Tag '{tag}' zu NFO-Datei '{file}' hinzugefügt.")
 
     print("Vorgang abgeschlossen.")
 
-#def main():
-root = tk.Tk()
-root.withdraw()  
-
-# Hauptverzeichnis, das durchsucht werden soll
-main_directory = filedialog.askdirectory(title='Animeordner auswählen')
-
-add_tags_as_Gruppenname_to_nfo_files(main_directory)
-
-#Testing
 if __name__ == "__main__":
- 
-    main_directory = r"Path"
+    root = tk.Tk()
+    root.withdraw()  
+
+    # Hauptverzeichnis, das durchsucht werden soll
+    main_directory = filedialog.askdirectory(title='Animeordner auswählen')
     add_tags_as_Gruppenname_to_nfo_files(main_directory)
-    

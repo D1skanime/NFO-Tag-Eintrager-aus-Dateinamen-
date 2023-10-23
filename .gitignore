@@ -1,0 +1,21 @@
+# Python-spezifische Dateien und Verzeichnisse
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtuelle Umgebungen
+venv/
+.venv/
+
+# Text-Editor-spezifische Dateien und Verzeichnisse
+.vscode/
+.idea/
+*.swp
+
+# Sensible Konfigurationsdateien
+config.py
+
+# Log-Dateien und temporäre Dateien
+*.log
+*.tmp

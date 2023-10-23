@@ -5,6 +5,7 @@
 # NFO-Tag-Eintrager (aus Dateinamen) v1
 # Date: 20.10.2023
 # Update_Date: 23.10.2023
+# Zusatztool für Emby
 
 
 # Bibiliotheken

@@ -3,7 +3,8 @@
 ![GitHub](https://img.shields.io/badge/python-3.x-blue.svg)
 ![GitHub](https://img.shields.io/badge/license-MIT-green)
 
-**NFO-Tag-Eintrager** ist ein einfaches Python-Tool, das entwickelt wurde, um NFO-Dateien in einem Verzeichnisbaum zu durchsuchen und NFO-Tags aus Dateinamen zu extrahieren. Dieses Tool ist besonders hilfreich, wenn du Anime-Serien oder ähnliche Inhalte organisierst und Metadaten in deinen NFO-Dateien speichern möchtest.
+**NFO-Tag-Eintrager** ist ein einfaches Python-Tool, das entwickelt wurde, um NFO-Dateien von Emby in einem Verzeichnisbaum zu durchsuchen und NFO-Tags aus Dateinamen zu extrahieren. Dieses Tool ist besonders hilfreich, wenn du Anime-Serien die mit dem Gruppname gettagt sind in deinen NFO-Dateien speichern möchtest damit sie auf Emby angezeigt werden.
+
 
 ## Features
 
